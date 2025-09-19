@@ -18,7 +18,6 @@ public class ArticleDTO {
 
     private String content;
 
-
     private LocalDateTime createDate;
 
     @LastModifiedDate
