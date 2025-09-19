@@ -1,11 +1,16 @@
 package com.example.demo.article.controller;
 
+import com.example.demo.article.entity.Article;
 import com.example.demo.article.service.ArticleService;
+import com.example.demo.global.jpa.ArticleDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //RestController 는 RestAPI에서 사용하는 컨트롤러이다
-//RestAPI는 자동으로 문자열로 변환해준다.
+//@Controller와 @Responbody 를 합친것이라 생각하면 편하다
 @RestController
 @RequestMapping("/api/v1/articles")
 @RequiredArgsConstructor
@@ -15,7 +20,7 @@ public class ApiV1ArticleController {
     //서비스를 하고 있는 컨트롤러를 수정해야하므로 버전관리를 한다
     private final ArticleService articleService;
 
-    //어노테이션 만으로도 CRUD를 구별할수 있다
+    //restAPI에서는 어노테이션 만으로도 CRUD를 구별할수 있다
     //다건 조회
     //@GetMapping
     // /articles
@@ -35,31 +40,44 @@ public class ApiV1ArticleController {
     //삭제
     //@DeleteMapping("/{id}")
     // /articles/1
+    @GetMapping("/listDTO")
+    public List<ArticleDTO> listDTO(){
+        List<ArticleDTO> articleList = new ArrayList<>();
 
+        Article article1 = new Article("제목1", "내용1");
+        articleList.add(new ArticleDTO(article1));
+        Article article2 = new Article("제목2", "내용2");
+        articleList.add(new ArticleDTO(article2));
+        Article article3 = new Article("제목3", "내용3");
+        articleList.add(new ArticleDTO(article3));
+
+        return articleList;
+    }
     @GetMapping("")
     public String list(){
-
         return "목록";
     }
     @GetMapping("/{id}")
-    public String getArticle(){
-
-        return "단건";
+    public ArticleDTO getArticle(@PathVariable("id") Long id){
+        Article article1 = new Article("제목4", "내용4");
+        return new ArticleDTO(article1);
     }
     @PostMapping("")
-    public String create(){
-
-        return "";
+    public String create(@RequestParam("subject") String subject, @RequestParam("content") String content){
+        System.out.println(subject);
+        System.out.println(content);
+        return "등록";
     }
     @PatchMapping("/{id}")
-    public String modify(){
-
-        return "";
+    public String modify(@PathVariable("id") Long id, @RequestParam("subject") String subject, @RequestParam("content") String content){
+        System.out.println(id);
+        System.out.println(subject);
+        System.out.println(content);
+        return "수정";
     }
     @DeleteMapping("/{id}")
-    public String delete(){
-
-        return "";
+    public String delete(@PathVariable("id") Long id){
+        System.out.println(id);
+        return "삭제";
     }
-
 }
