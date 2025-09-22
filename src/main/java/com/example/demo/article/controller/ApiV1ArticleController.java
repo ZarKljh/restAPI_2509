@@ -10,6 +10,8 @@ import com.example.demo.article.response.ArticlesResponse;
 import com.example.demo.article.service.ArticleService;
 import com.example.demo.global.jpa.ArticleDTO;
 import com.example.demo.global.rsData.RsData;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +19,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
+
 //RestController 는 RestAPI에서 사용하는 컨트롤러이다
 //@Controller와 @Responbody 를 합친것이라 생각하면 편하다
 @RestController
-@RequestMapping("/api/v1/articles")
+@RequestMapping(value = "/api/v1/articles", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
+@Tag(name = "ApiV1ArticleController")
 public class ApiV1ArticleController {
     //Api V1 의 의미 restAPI형태 즉 제이슨형태로 데이터를 넘길 것이므로 Api V1 이라고 붙인다
     //이전까지는 articleController라고 했지만 이제부터는 apiV1이라고 앞에 붙인다
@@ -49,6 +54,7 @@ public class ApiV1ArticleController {
     //@DeleteMapping("/{id}")
     // /articles/1
     @GetMapping("/listDTO")
+    @Operation(summary = "게시물 다건 조회")
     public List<ArticleDTO> listDTO(){
         List<ArticleDTO> articleList = new ArrayList<>();
 
