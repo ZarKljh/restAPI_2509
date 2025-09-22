@@ -3,6 +3,8 @@ package com.example.demo.article.controller;
 import com.example.demo.article.entity.Article;
 import com.example.demo.article.request.ArticleCreateRequest;
 import com.example.demo.article.request.ArticleModifyRequest;
+import com.example.demo.article.response.ArticleCreateResponse;
+import com.example.demo.article.response.ArticleModifyResponse;
 import com.example.demo.article.response.ArticleResponse;
 import com.example.demo.article.response.ArticlesResponse;
 import com.example.demo.article.service.ArticleService;
@@ -75,6 +77,14 @@ public class ApiV1ArticleController {
 
         return RsData.of("200", "게시글 다건 조회 성공", new ArticlesResponse(articleList));
     }
+    /*실제 서비스와 리포지터리를 이용한 데이터 이동실습*/
+    @GetMapping("/rsdatalistv1")
+    public RsData<ArticlesResponse> listRsDatav1(){
+        List<ArticleDTO> articleList = articleService.getList();
+        return RsData.of("200", "게시글 다건 조회 성공", new ArticlesResponse(articleList));
+    }
+
+
     @GetMapping("")
     public String list(){
         return "목록";
@@ -92,7 +102,14 @@ public class ApiV1ArticleController {
 
         return RsData.of("200", "게시물 1건 조회 성공", new ArticleResponse(articleDTO));
     }
+    /*실제 서비스와 리포지터리를 이용한 데이터 이동실습*/
+    @GetMapping("/rsdatav1/{id}")
+    public RsData<ArticleResponse> getRsDataArticlev1(@PathVariable("id") Long id){
 
+        Article article = articleService.getArticle(id);
+        ArticleDTO articleDTO = new ArticleDTO(article);
+        return RsData.of("200", "게시물 1건 조회 성공", new ArticleResponse(articleDTO));
+    }
 
     @PostMapping("")
     public String create(@RequestParam("subject") String subject, @RequestParam("content") String content){
@@ -106,6 +123,14 @@ public class ApiV1ArticleController {
         System.out.println(articleCreateRequest.getContent());
         return "등록";
     }
+
+    /*실제 서비스와 리포지터리를 이용한 데이터 이동실습*/
+    @PostMapping("/rsdatav1")
+    public RsData<ArticleCreateResponse> createRsDatav1(@Valid @RequestBody ArticleCreateRequest articleCreateRequest){
+        Article article = articleService.write(articleCreateRequest.getSubject(), articleCreateRequest.getContent());
+        return RsData.of("200", "등록성공", new ArticleCreateResponse(article));
+    }
+
     @PatchMapping("/{id}")
     public String modify(@PathVariable("id") Long id, @RequestParam("subject") String subject, @RequestParam("content") String content){
         System.out.println(id);
@@ -121,11 +146,40 @@ public class ApiV1ArticleController {
         System.out.println(articleModifyRequest.getContent());
         return "수정";
     }
+    @PatchMapping("/rsdatamodifyv1/{id}")
+    public RsData<ArticleModifyResponse> modifyRsdatav1(@PathVariable("id") Long id, @Valid @RequestBody ArticleModifyRequest articleModifyRequest){
+        Article article = articleService.getArticle(id);
+
+        if(article == null) return RsData.of(
+                    "500",
+                    "%d번 게시물은 존재하지 않습니다".formatted(id),
+                    null
+            );
+        article = articleService.update(
+                article,
+                articleModifyRequest.getSubject(),
+                articleModifyRequest.getContent()
+        );
+
+        return RsData.of("200","수정성공", new ArticleModifyResponse(article));
+    }
 
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id){
         System.out.println(id);
         return "삭제";
+    }
+    @DeleteMapping("/v1/{id}")
+    public RsData<ArticleResponse> deletev1(@PathVariable("id") Long id){
+        Article article = articleService.getArticle(id);
+        if(article == null) return RsData.of(
+                "500",
+                "%d번 게시물은 존재하지 않습니다".formatted(id),
+                null
+        );
+        articleService.delete(article);
+        ArticleDTO articleDTO = new ArticleDTO(article);
+        return RsData.of("200","삭제성공", new ArticleResponse(articleDTO));
     }
 }
