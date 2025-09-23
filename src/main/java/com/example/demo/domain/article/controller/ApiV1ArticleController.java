@@ -2,8 +2,8 @@ package com.example.demo.domain.article.controller;
 
 import com.example.demo.domain.article.dto.ArticleDTO;
 import com.example.demo.domain.article.entity.Article;
-import com.example.demo.domain.article.request.ArticleCreateRequest;
-import com.example.demo.domain.article.request.ArticleModifyRequest;
+import com.example.demo.domain.article.dto.request.ArticleCreateRequest;
+import com.example.demo.domain.article.dto.request.ArticleModifyRequest;
 import com.example.demo.domain.article.response.ArticleCreateResponse;
 import com.example.demo.domain.article.response.ArticleModifyResponse;
 import com.example.demo.domain.article.response.ArticleResponse;

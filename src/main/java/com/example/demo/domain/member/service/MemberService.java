@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    /*
     public void join(String username, String password){
         Member member = Member.builder()
                 .username(username)
@@ -18,5 +19,18 @@ public class MemberService {
                 .build();
         memberRepository.save(member);
 
+    }
+     */
+    public Member join(String username, String password){
+        Member checkedMember = memberRepository.findByUsername(username);
+        if(checkedMember != null){
+            throw new RuntimeException("이미 가입된 사용자입니다.");
+        }
+        Member member = Member.builder()
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .build();
+        memberRepository.save(member);
+        return member;
     }
 }
