@@ -1,23 +1,18 @@
 package com.example.demo.domain.article.controller;
 
+import com.example.demo.domain.article.dto.ArticleDTO;
 import com.example.demo.domain.article.entity.Article;
 import com.example.demo.domain.article.request.ArticleCreateRequest;
 import com.example.demo.domain.article.request.ArticleModifyRequest;
 import com.example.demo.domain.article.response.ArticleCreateResponse;
 import com.example.demo.domain.article.response.ArticleModifyResponse;
 import com.example.demo.domain.article.response.ArticleResponse;
-import com.example.demo.domain.article.response.ArticlesResponse;
 import com.example.demo.domain.article.service.ArticleService;
-import com.example.demo.domain.article.dto.ArticleDTO;
 import com.example.demo.global.rsData.RsData;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
@@ -53,61 +48,61 @@ public class ApiV1ArticleController {
     //삭제
     //@DeleteMapping("/{id}")
     // /articles/1
-    @GetMapping("/listDTO")
-    @Operation(summary = "게시물 다건 조회")
-    public List<ArticleDTO> listDTO(){
-        List<ArticleDTO> articleList = new ArrayList<>();
-
-        Article article1 = new Article("제목1", "내용1");
-        articleList.add(new ArticleDTO(article1));
-        Article article2 = new Article("제목2", "내용2");
-        articleList.add(new ArticleDTO(article2));
-        Article article3 = new Article("제목3", "내용3");
-        articleList.add(new ArticleDTO(article3));
-
-        return articleList;
-    }
-
-
-
-    @GetMapping("/rsdatalist")
-    public RsData<ArticlesResponse> listRsData(){
-        List<ArticleDTO> articleList = new ArrayList<>();
-
-        Article article1 = new Article("제목1", "내용1");
-        articleList.add(new ArticleDTO(article1));
-        Article article2 = new Article("제목2", "내용2");
-        articleList.add(new ArticleDTO(article2));
-        Article article3 = new Article("제목3", "내용3");
-        articleList.add(new ArticleDTO(article3));
-
-        return RsData.of("200", "게시글 다건 조회 성공", new ArticlesResponse(articleList));
-    }
-    /*실제 서비스와 리포지터리를 이용한 데이터 이동실습*/
-    @GetMapping("/rsdatalistv1")
-    public RsData<ArticlesResponse> listRsDatav1(){
-        List<ArticleDTO> articleList = articleService.getList();
-        return RsData.of("200", "게시글 다건 조회 성공", new ArticlesResponse(articleList));
-    }
-
-
-    @GetMapping("")
-    public String list(){
-        return "목록";
-    }
-    @GetMapping("/{id}")
-    public ArticleDTO getArticle(@PathVariable("id") Long id){
-        Article article1 = new Article("제목4", "내용4");
-        return new ArticleDTO(article1);
-    }
-    @GetMapping("/rsdata/{id}")
-    public RsData<ArticleResponse> getRsDataArticle(@PathVariable("id") Long id){
-        Article article1 = new Article("제목4", "내용4");
-
-        ArticleDTO articleDTO = new ArticleDTO(article1);
-
-        return RsData.of("200", "게시물 1건 조회 성공", new ArticleResponse(articleDTO));
-    }
+//    @GetMapping("/listDTO")
+//    @Operation(summary = "게시물 다건 조회")
+//    public List<ArticleDTO> listDTO(){
+//        List<ArticleDTO> articleList = new ArrayList<>();
+//
+//        Article article1 = new Article("제목1", "내용1");
+//        articleList.add(new ArticleDTO(article1));
+//        Article article2 = new Article("제목2", "내용2");
+//        articleList.add(new ArticleDTO(article2));
+//        Article article3 = new Article("제목3", "내용3");
+//        articleList.add(new ArticleDTO(article3));
+//
+//        return articleList;
+//    }
+//
+//
+//
+//    @GetMapping("/rsdatalist")
+//    public RsData<ArticlesResponse> listRsData(){
+//        List<ArticleDTO> articleList = new ArrayList<>();
+//
+//        Article article1 = new Article("제목1", "내용1");
+//        articleList.add(new ArticleDTO(article1));
+//        Article article2 = new Article("제목2", "내용2");
+//        articleList.add(new ArticleDTO(article2));
+//        Article article3 = new Article("제목3", "내용3");
+//        articleList.add(new ArticleDTO(article3));
+//
+//        return RsData.of("200", "게시글 다건 조회 성공", new ArticlesResponse(articleList));
+//    }
+//    /*실제 서비스와 리포지터리를 이용한 데이터 이동실습*/
+//    @GetMapping("/rsdatalistv1")
+//    public RsData<ArticlesResponse> listRsDatav1(){
+//        List<ArticleDTO> articleList = articleService.getList();
+//        return RsData.of("200", "게시글 다건 조회 성공", new ArticlesResponse(articleList));
+//    }
+//
+//
+//    @GetMapping("")
+//    public String list(){
+//        return "목록";
+//    }
+//    @GetMapping("/{id}")
+//    public ArticleDTO getArticle(@PathVariable("id") Long id){
+//        Article article1 = new Article("제목4", "내용4");
+//        return new ArticleDTO(article1);
+//    }
+//    @GetMapping("/rsdata/{id}")
+//    public RsData<ArticleResponse> getRsDataArticle(@PathVariable("id") Long id){
+//        Article article1 = new Article("제목4", "내용4");
+//
+//        ArticleDTO articleDTO = new ArticleDTO(article1);
+//
+//        return RsData.of("200", "게시물 1건 조회 성공", new ArticleResponse(articleDTO));
+//    }
     /*실제 서비스와 리포지터리를 이용한 데이터 이동실습*/
     @GetMapping("/rsdatav1/{id}")
     public RsData<ArticleResponse> getRsDataArticlev1(@PathVariable("id") Long id){
