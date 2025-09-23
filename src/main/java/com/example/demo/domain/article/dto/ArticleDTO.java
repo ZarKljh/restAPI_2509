@@ -1,6 +1,6 @@
-package com.example.demo.global.jpa;
+package com.example.demo.domain.article.dto;
 
-import com.example.demo.article.entity.Article;
+import com.example.demo.domain.article.entity.Article;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -13,7 +13,9 @@ public class ArticleDTO {
 
     private final String content;
 
-    private final LocalDateTime createDate;
+    private final String author;
+
+    private final LocalDateTime createdDate;
 
     private final LocalDateTime modifiedDate;
 
@@ -21,7 +23,8 @@ public class ArticleDTO {
         this.id = article.getId();
         this.subject = article.getSubject();
         this.content = article.getContent();
-        this.createDate = article.getCreateDate();
+        this.author = article.getMember().getUsername();
+        this.createdDate = article.getCreatedDate();
         this.modifiedDate = article.getModifiedDate();
     }
 }
