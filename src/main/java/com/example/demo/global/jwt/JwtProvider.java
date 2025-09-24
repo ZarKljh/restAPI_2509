@@ -14,6 +14,23 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+비밀키 관리
+getSecretKey
+_getSecretKey
+
+토큰 만들기
+getRefreshToken
+getAccessToken
+genToken
+
+토큰 확인/꺼내기
+verify
+getClaims
+ */
+
+
+
 @Component
 public class JwtProvider {
     @Value("${custom.jwt.secretKey}")

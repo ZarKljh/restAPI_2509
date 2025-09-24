@@ -1,9 +1,9 @@
 package com.example.demo.domain.article.controller;
 
 import com.example.demo.domain.article.dto.ArticleDTO;
-import com.example.demo.domain.article.entity.Article;
 import com.example.demo.domain.article.dto.request.ArticleCreateRequest;
 import com.example.demo.domain.article.dto.request.ArticleModifyRequest;
+import com.example.demo.domain.article.entity.Article;
 import com.example.demo.domain.article.response.ArticleCreateResponse;
 import com.example.demo.domain.article.response.ArticleModifyResponse;
 import com.example.demo.domain.article.response.ArticleResponse;
@@ -14,12 +14,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
-
 //RestController 는 RestAPI에서 사용하는 컨트롤러이다
 //@Controller와 @Responbody 를 합친것이라 생각하면 편하다
 @RestController
-@RequestMapping(value = "/api/v1/articles", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/articles")
 @RequiredArgsConstructor
 @Tag(name = "ApiV1ArticleController")
 public class ApiV1ArticleController {
