@@ -8,8 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
-@EnableWebSecurity
+@Configuration /*스프링 빈 설정 클래스*/
+@EnableWebSecurity /* spring security 기능을 활성화 한다*/
 public class ApiSecurityConfig {
 
     @Bean

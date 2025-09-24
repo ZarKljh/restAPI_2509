@@ -33,4 +33,7 @@ public class MemberService {
         memberRepository.save(member);
         return member;
     }
+    public Member getMember(String username){
+        return this.memberRepository.findByUsername(username);
+    }
 }
