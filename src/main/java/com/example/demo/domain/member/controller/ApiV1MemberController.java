@@ -43,6 +43,17 @@ public class ApiV1MemberController {
 
         //access token 발급
         String accessToken = jwtProvider.genAccessToken(member);
+        Cookie cookie = new Cookie("accessToken", accessToken);
+        /*자바스크립트 접근 방지*/
+        cookie.setHttpOnly(true);
+        /*https에서만 접근 가능, http에서는 접근금지*/
+        cookie.setSecure(true);
+        /*접근 가능 사이트는 모든 사이트*/
+        cookie.setPath("/");
+        /*유효시간은 60*60초 = 1시간*/
+        cookie.setMaxAge(60*60);
+        res.addCookie(cookie);
+
         /*자바에서 클라이언트에게 전달할 때 사용하는 개체*/
         /*postman에서 cookie탭에서 결과를 확인가능하다*/
         res.addCookie(new Cookie("accessToken", accessToken));
@@ -64,6 +75,7 @@ public class ApiV1MemberController {
         }
         /*토큰안에 있는 사용자 정보를 꺼내온다*/
         Map<String, Object> claims = jwtProvider.getClaims(accessToken);
+        /*꺼내온 username은 Object 타입으로 String 으로 형변환한다*/
         String username = (String)claims.get("username");
         Member member = this.memberService.getMember(username);
 
