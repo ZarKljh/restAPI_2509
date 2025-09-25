@@ -43,16 +43,31 @@ public class ApiV1MemberController {
 
         //access token 발급
         String accessToken = jwtProvider.genAccessToken(member);
-        Cookie cookie = new Cookie("accessToken", accessToken);
+        //Cookie cookie = new Cookie("accessToken", accessToken);
+        Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
         /*자바스크립트 접근 방지*/
-        cookie.setHttpOnly(true);
+        accessTokenCookie.setHttpOnly(true);
         /*https에서만 접근 가능, http에서는 접근금지*/
-        cookie.setSecure(true);
+        accessTokenCookie.setSecure(true);
         /*접근 가능 사이트는 모든 사이트*/
-        cookie.setPath("/");
+        accessTokenCookie.setPath("/");
         /*유효시간은 60*60초 = 1시간*/
-        cookie.setMaxAge(60*60);
-        res.addCookie(cookie);
+        accessTokenCookie.setMaxAge(60*60);
+        res.addCookie(accessTokenCookie);
+
+        //access token 발급
+        String refreshToken = jwtProvider.genRefreshToken(member);
+        //Cookie cookie = new Cookie("accessToken", accessToken);
+        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
+        /*자바스크립트 접근 방지*/
+        refreshTokenCookie.setHttpOnly(true);
+        /*https에서만 접근 가능, http에서는 접근금지*/
+        refreshTokenCookie.setSecure(true);
+        /*접근 가능 사이트는 모든 사이트*/
+        refreshTokenCookie.setPath("/");
+        /*유효시간은 60*60초 = 1시간*/
+        refreshTokenCookie.setMaxAge(60*60);
+        res.addCookie(refreshTokenCookie);
 
         /*자바에서 클라이언트에게 전달할 때 사용하는 개체*/
         /*postman에서 cookie탭에서 결과를 확인가능하다*/
@@ -80,5 +95,20 @@ public class ApiV1MemberController {
         Member member = this.memberService.getMember(username);
 
         return RsData.of("200", "내 회원 정보", new MemberResponse(member));
+    }
+
+    @GetMapping("/logout")
+    public RsData logout(HttpServletResponse res){
+        Cookie accessTokenCookie = new Cookie("accessToken", null);
+        accessTokenCookie.setPath("/");
+        accessTokenCookie.setMaxAge(0);
+        res.addCookie(accessTokenCookie);
+
+        Cookie refreshTokenCookie = new Cookie("refreshToken", null);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(0);
+        res.addCookie(refreshTokenCookie);
+
+        return RsData.of("200", "로그아웃 성공");
     }
 }

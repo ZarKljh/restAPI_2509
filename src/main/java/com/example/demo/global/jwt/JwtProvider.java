@@ -89,7 +89,9 @@ public class JwtProvider {
     /* 유효기간 10뷴욿 설정*/
     /*실제 api 요청시 인증할 때 사용*/
     public String genAccessToken(Member member) {
+
         return genToken(member, 60 * 10);
+        //return genToken(member, 5);
     }
 
 
